@@ -42,3 +42,26 @@ const propiedadesJSON = [
     m: 500,
   },
 ];
+
+const inputRooms = document.querySelector("#inputRooms");
+const inputFrom = document.querySelector("#inputFrom");
+const inputTo = document.querySelector("#inputTo");
+
+const filterByRoom = (json) => {
+  const rangeRooms = json.map((mov) => mov.piezas);
+  const min = rangeRooms.reduce((a, b) => Math.min(a, b));
+  const max = rangeRooms.reduce((a, b) => Math.min(a, b));
+
+  const filter = json.map((mov) => {
+    const roomsInputCondition =
+      +inputRooms.value >= min && +inputRooms.value <= max
+        ? +inputRooms.value
+        : false;
+
+    if (roomsInputCondition === mov.piezas) {
+      return mov;
+    }
+  });
+
+  return filter;
+};
