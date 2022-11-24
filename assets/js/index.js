@@ -51,22 +51,13 @@ const properties = document.querySelector('#propiedades')
 const totalProperties = document.querySelector('#totalProperties')
 
 const filterByRoom = json => {
-  const rangeRooms = json.map(mov => mov.rooms)
-  const min = rangeRooms.reduce((a, b) => Math.min(a, b))
-  const max = rangeRooms.reduce((a, b) => Math.max(a, b))
-
-  const filterMinMax = json.map(mov => {
-    const roomsInputCondition =
-      +inputRooms.value >= min && +inputRooms.value <= max
-        ? +inputRooms.value
-        : false
-
-    if (roomsInputCondition === mov.rooms) {
+  const filterPerRoom = json.map(mov => {
+    if (+inputRooms.value === mov.rooms) {
       return mov
     }
   })
 
-  return filterMinMax
+  return filterPerRoom
 }
 
 const filterByMeter = json => {
@@ -112,11 +103,6 @@ const filterUndefined = (rooms, meters) => {
 buttonSearch.addEventListener('click', () => {
   propiedades.innerHTML = ''
 
-  const finalObjectProperties = filterUndefined(
-    filterByRoom(propiedadesJSON),
-    filterByMeter(propiedadesJSON)
-  )
-
   if (+inputRooms.value <= 0) {
     return (totalProperties.textContent =
       'Debes ingresar una cantidad de cuartos')
@@ -127,33 +113,45 @@ buttonSearch.addEventListener('click', () => {
       'Debes ingresar un rango de metros cuadrados.')
   }
 
+  const finalObjectProperties = filterUndefined(
+    filterByRoom(propiedadesJSON),
+    filterByMeter(propiedadesJSON)
+  )
+
+  const finalArrProperties = []
+
   for (const i of finalObjectProperties) {
-    const roomsValidation = +inputRooms.value === i.rooms
-    const metersValidation =
-      +inputFrom.value <= i.m && +inputTo.value >= i.m ? true : false
+    if (+inputRooms.value === i.rooms) {
+      finalArrProperties.push(i)
+    }
 
-    totalProperties.textContent = `Total: ${[i].length}`
+    if (+inputRooms.value === i.rooms) {
+      totalProperties.textContent = `Total: ${finalArrProperties.length}`
 
-    if (roomsValidation === true && metersValidation === true) {
       properties.innerHTML += `
-         <div class="propiedad">
-           <div
-             class="img"
-             style="
-               background-image: url('${i.src}');
-             "
-           ></div>
-           <section>
-             <h5>${i.name}</h5>
-             <div class="d-flex justify-content-between">
-               <p>Cuartos: ${i.rooms}</p>
-               <p>Metros: ${i.m}</p>
-             </div>
-             <p class="my-3">Mansión gigante</p>
-             <button class="btn btn-info">Ver más</button>
-           </section>
-         </div>
-`
+           <div class="propiedad">
+             <div
+               class="img"
+               style="
+                 background-image: url('${i.src}');
+               "
+             ></div>
+             <section>
+               <h5>${i.name}</h5>
+               <div class="d-flex justify-content-between">
+                 <p>Cuartos: ${i.rooms}</p>
+                 <p>Metros: ${i.m}</p>
+               </div>
+               <p class="my-3">Mansión gigante</p>
+               <button class="btn btn-info">Ver más</button>
+             </section>
+           </div>
+  `
+    }
+
+    if (finalArrProperties.length === 0) {
+      totalProperties.textContent =
+        'No hay propiedades con esas características'
     }
   }
 })
