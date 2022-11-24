@@ -155,3 +155,10 @@ buttonSearch.addEventListener('click', () => {
     }
   }
 })
+
+/*
+Profesor, este desafío me costó demasiado. Lo tomé la semana ante pasada y recién hoy (día de entrega) logro terminarlo.
+Entiendo que la lógica que hice puede ser mucho mas corta, me enrredé demasiado con los arrays y las funciones que hice al inicio.
+¿Es posible que me puedas dar una guia o lista de las cosas que podría haber evitado o minimizado para llegar al resultado final?
+Muchas gracias Profesor.
+*/
