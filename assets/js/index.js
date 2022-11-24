@@ -46,6 +46,9 @@ const propiedadesJSON = [
 const inputRooms = document.querySelector('#inputRooms')
 const inputFrom = document.querySelector('#inputFrom')
 const inputTo = document.querySelector('#inputTo')
+const buttonSearch = document.querySelector('#buttonSearch')
+const properties = document.querySelector('#propiedades')
+const totalProperties = document.querySelector('#totalProperties')
 
 const filterByRoom = json => {
   const rangeRooms = json.map(mov => mov.rooms)
@@ -105,6 +108,52 @@ const filterUndefined = (rooms, meters) => {
 
   return deleteRepeated
 }
-console.log(
-  filterUndefined(filterByRoom(propiedadesJSON), filterByMeter(propiedadesJSON))
-)
+
+buttonSearch.addEventListener('click', () => {
+  propiedades.innerHTML = ''
+
+  const finalObjectProperties = filterUndefined(
+    filterByRoom(propiedadesJSON),
+    filterByMeter(propiedadesJSON)
+  )
+
+  if (+inputRooms.value <= 0) {
+    return (totalProperties.textContent =
+      'Debes ingresar una cantidad de cuartos')
+  }
+
+  if (+inputFrom.value <= 0 || +inputTo.value <= 0) {
+    return (totalProperties.textContent =
+      'Debes ingresar un rango de metros cuadrados.')
+  }
+
+  for (const i of finalObjectProperties) {
+    const roomsValidation = +inputRooms.value === i.rooms
+    const metersValidation =
+      +inputFrom.value <= i.m && +inputTo.value >= i.m ? true : false
+
+    totalProperties.textContent = `Total: ${[i].length}`
+
+    if (roomsValidation === true && metersValidation === true) {
+      properties.innerHTML += `
+         <div class="propiedad">
+           <div
+             class="img"
+             style="
+               background-image: url('${i.src}');
+             "
+           ></div>
+           <section>
+             <h5>${i.name}</h5>
+             <div class="d-flex justify-content-between">
+               <p>Cuartos: ${i.rooms}</p>
+               <p>Metros: ${i.m}</p>
+             </div>
+             <p class="my-3">Mansión gigante</p>
+             <button class="btn btn-info">Ver más</button>
+           </section>
+         </div>
+`
+    }
+  }
+})

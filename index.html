@@ -24,7 +24,6 @@
             min="0"
             class="form-control w-50 m-auto"
             type="number"
-            value="1"
           />
         </div>
         <div>
@@ -37,30 +36,23 @@
                 min="0"
                 class="form-control"
                 type="number"
-                value="400"
               />
             </div>
             <div>
               <p>hasta:</p>
-              <input
-                id="inputTo"
-                min="0"
-                class="form-control"
-                type="number"
-                value="500"
-              />
+              <input id="inputTo" min="0" class="form-control" type="number" />
             </div>
           </div>
         </div>
       </section>
 
-      <button class="btn btn-warning">Buscar</button>
+      <button id="buttonSearch" class="btn btn-warning">Buscar</button>
     </nav>
 
     <section id="Propiedades">
-      <h4 class="py-3">Total: <span>0</span></h4>
+      <h4 id="totalProperties" class="py-3">Total: <span">0</span></h4>
 
-      <div class="propiedades">
+      <div id="propiedades" class="propiedades">
         <div class="propiedad">
           <div
             class="img"
