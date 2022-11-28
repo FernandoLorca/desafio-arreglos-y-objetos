@@ -50,6 +50,33 @@ const buttonSearch = document.querySelector('#buttonSearch')
 const properties = document.querySelector('#propiedades')
 const totalProperties = document.querySelector('#totalProperties')
 
+const render = json => {
+  properties.innerHTML = ''
+
+  json.forEach(e => {
+    properties.innerHTML += `
+             <div class="propiedad">
+               <div
+                 class="img"
+                 style="
+                   background-image: url('${e.src}');
+                 "
+               ></div>
+               <section>
+                 <h5>${e.name}</h5>
+                 <div class="d-flex justify-content-between">
+                   <p>Cuartos: ${e.rooms}</p>
+                   <p>Metros: ${e.m}</p>
+                 </div>
+                 <p class="my-3">Mansión gigante</p>
+                 <button class="btn btn-info">Ver más</button>
+               </section>
+             </div>
+    `
+  })
+}
+render(propiedadesJSON)
+
 const filterByRoom = json => {
   const filterPerRoom = json.map(mov => {
     if (+inputRooms.value === mov.rooms) {
